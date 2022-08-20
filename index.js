@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(routes)
 
 app.listen(serverPort,()=>{
-     init()
+     //init()
     console.log(`Server is running at ${serverPort}`)
 })
 
