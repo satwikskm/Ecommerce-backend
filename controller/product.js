@@ -1,19 +1,21 @@
-const {Categories} = require('../models')
+const {Products} = require('../models')
 
-async function createCategory (req,res){
+async function createProducts (req,res){
 
-    const categoryData = req.body 
-    if(!categoryData.name){
-        res.status(400).send({'Info':'Name is required'})
+    const productData = req.body 
+    if(!productData.name){
+        res.status(400).send({'Info':'Product name is required'})
     }
-    const name = categoryData.name
-    const description= categoryData.description
+    const name = productData.name
+    const description= productData.description
+    const cost = productData.cost
+    const quantity = productData.quantity
 
     try {
 
-        const result = await Categories.create({ name , description })
+        const result = await Products.create({ name , description , cost, quantity})
         console.log(result)
-        res.status(200).send({'Info':`Category ${result.ids} have ben created`})
+        res.status(200).send({'Info':`Product ${result.id} have ben created`})
         
     } catch (error) {
         console.log(error)
@@ -24,9 +26,9 @@ async function createCategory (req,res){
 
 }
 
-async function getAllCategory(req, res){
+async function getAllProducts(req, res){
 	try{
-		const result = await Categories.findAll()
+		const result = await Products.findAll()
 		res.send(result)
 	}catch(err){
         console.log(error)
@@ -35,14 +37,14 @@ async function getAllCategory(req, res){
 	}
 }
 
-async function getCategoryOnId(req,res){
-    const categoryId = req.params.id
+async function getProductsOnId(req,res){
+    const productId = req.params.id
 
     try {
 
-        const result = await Categories.findOne({
+        const result = await Products.findOne({
             where:{
-                id:categoryId
+                id:productId
             }
         })
         console.log(result)
@@ -61,15 +63,15 @@ async function getCategoryOnId(req,res){
     
 }
 
-async function updateCategory(req,res){
-    const categoryId = req.params.id
+async function updateProducts(req,res){
+    const productId = req.params.id
     const {name,description} = req.body
 
     try {
 
-        const result = await Categories.findOne({
+        const result = await Products.findOne({
             where:{
-                id:categoryId
+                id:productId
             }
         })
         if(result){
@@ -81,7 +83,7 @@ async function updateCategory(req,res){
 
         }
         else{
-            res.status(400).send({'Info':`Id ${categoryId} doesn't exists`})
+            res.status(400).send({'Info':`Id ${productId} doesn't exists`})
         }
 
         }catch (error) {
@@ -97,15 +99,15 @@ async function updateCategory(req,res){
         
 } 
 
-async function deleteCategory(req,res){
+async function deleteProducts(req,res){
     const categoryId = req.params.id
-    const {name,description} = req.body
+   
 
     try {
 
-        const result = await Categories.destroy({
+        const result = await Products.destroy({
             where:{
-                id:categoryId
+                id:productId
             }
         })
         
@@ -134,9 +136,9 @@ async function deleteCategory(req,res){
 
 
 module.exports={
-    createCategory,
-    getAllCategory,
-    updateCategory,
-    getCategoryOnId,
-    deleteCategory
+    createProducts,
+    getAllProducts,
+    updateProducts,
+    getProductsOnId,
+    deleteProducts
 }
