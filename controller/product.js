@@ -78,7 +78,7 @@ async function updateProducts(req,res){
             result.name = name,
             result.description = description
             result.save()
-            res.status(200).send({'Info':result})
+            res.status(200).send({'Info':`Product ${result.name} got updated successfully`})
 
 
         }
