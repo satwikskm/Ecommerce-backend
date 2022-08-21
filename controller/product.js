@@ -1,19 +1,21 @@
-const {Products} = require('../models')
+const {Products, Sequelize} = require('../models')
 
 async function createProducts (req,res){
 
     const productData = req.body 
-    if(!productData.name){
-        res.status(400).send({'Info':'Product name is required'})
-    }
+    // if(!productData.name){
+    //     res.status(400).send({'Info':'Product name is required'})
+    // }
     const name = productData.name
     const description= productData.description
     const cost = productData.cost
     const quantity = productData.quantity
+    const categoryId = productData.categoryId
+
 
     try {
 
-        const result = await Products.create({ name , description , cost, quantity})
+        const result = await Products.create({ name , description , cost, quantity,categoryId})
         console.log(result)
         res.status(200).send({'Info':`Product ${result.id} have ben created`})
         
@@ -131,6 +133,70 @@ async function deleteProducts(req,res){
         
 } 
 
+
+
+async function filterProduct(req,res){
+    const CategoryId = req.query.CategoryId
+    const name = req.query.name
+    const minCost = req.query.minCost
+    const maxCost = req.query.CategoryId
+
+    if(CategoryId){
+       const result =  await Products.findAll({
+            where:{
+                CategoryId:CategoryId
+            }
+        })
+        return res.status(200).send(result)
+    }
+    else if(name){
+        const result =  await Products.findAll({
+             where:{
+                 name:name
+             }
+         })
+         return res.status(200).send(result)
+     }
+    else if(minCost && maxCost){
+        const result =  await Products.findAll({
+             where:{
+                cost:{
+                    [Sequelize.Op.gte]:minCost,
+                    [Sequelize.Op.lte]:maxCost
+                }
+             }
+         })
+         return res.status(200).send(result)
+     }
+     else if(minCost){
+        const result =  await Products.findAll({
+             where:{
+                cost:{
+                    [Sequelize.Op.gte]:minCost
+                   
+                }
+             }
+         })
+         return res.status(200).send(result)
+     }
+     else if(maxCost){
+        const result =  await Products.findAll({
+             where:{
+                cost:{
+                    [Sequelize.Op.lte]:maxCost
+                   
+                }
+             }
+         })
+         return res.status(200).send(result)
+     }
+    
+    else{
+        res.status(400).send({'Info':'Item Not Found'})
+    }
+
+}
+
     
 
 
@@ -140,5 +206,6 @@ module.exports={
     getAllProducts,
     updateProducts,
     getProductsOnId,
-    deleteProducts
+    deleteProducts,
+    filterProduct
 }

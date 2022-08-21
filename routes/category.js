@@ -4,7 +4,9 @@ const routes= express.Router()
 
 const {createCategory,getAllCategory,getCategoryOnId,updateCategory,deleteCategory} = require('../controller/category')
 
-routes.post('/ecomm/api/v1/categories',createCategory)
+const {categoryValidation} = require('../middleware')
+
+routes.post('/ecomm/api/v1/categories',[categoryValidation],createCategory)
 
 routes.get('/ecomm/api/v1/categories',getAllCategory)
 

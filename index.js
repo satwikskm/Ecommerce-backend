@@ -13,7 +13,7 @@ app.use(categoryRoutes)
 app.use(productRoutes)
 
 app.listen(serverPort,()=>{
-     init()
+    // init()
     console.log(`Server is running at ${serverPort}`)
 })
 

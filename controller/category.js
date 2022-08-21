@@ -3,9 +3,9 @@ const {Categories} = require('../models')
 async function createCategory (req,res){
 
     const categoryData = req.body 
-    if(!categoryData.name){
-        res.status(400).send({'Info':'Name is required'})
-    }
+    // if(!categoryData.name){
+    //     res.status(400).send({'Info':'Name is required'})
+    // }
     const name = categoryData.name
     const description= categoryData.description
 
