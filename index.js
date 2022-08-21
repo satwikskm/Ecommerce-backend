@@ -2,7 +2,7 @@ const express = require('express')
 
 const {serverPort} = require('./config/server.config')
 
-const {Categories, sequilize} = require('./models')
+const {Categories, sequelize} = require('./models')
 
 const routes = require('./routes')
 
@@ -17,9 +17,9 @@ app.listen(serverPort,()=>{
 })
 
 const init = async() =>{
-    await Categories.sync({force:true})
+    await sequelize.sync({force:true})
     try {
-        await Categories.sync({force:true})
+        await sequelize.sync({force:true})
         const test = [
             {
                 name:"test",
