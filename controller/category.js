@@ -13,7 +13,7 @@ async function createCategory (req,res){
 
         const result = await Categories.create({ name , description })
         console.log(result)
-        res.status(200).send({'Info':`Category ${result.ids} have ben created`})
+        res.status(200).send({'Info':`Category ${result.id} have ben created`})
         
     } catch (error) {
         console.log(error)

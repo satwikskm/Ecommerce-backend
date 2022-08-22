@@ -14,7 +14,7 @@ app.use(productRoutes)
 app.use(authRoutes)
 
 app.listen(serverPort,()=>{
-    // init()
+    //init()
     console.log(`Server is running at ${serverPort}`)
 })
 
