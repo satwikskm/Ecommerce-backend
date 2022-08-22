@@ -2,15 +2,16 @@ const express = require('express')
 
 const {serverPort} = require('./config/server.config')
 
-const {Categories, Products,sequelize} = require('./models')
+const {Categories, Products,Role,sequelize} = require('./models')
 
-const {categoryRoutes,productRoutes} = require('./routes')
+const {categoryRoutes,productRoutes,authRoutes} = require('./routes')
 
 app=express()
 
 app.use(express.json())
 app.use(categoryRoutes)
 app.use(productRoutes)
+app.use(authRoutes)
 
 app.listen(serverPort,()=>{
     // init()
@@ -77,8 +78,17 @@ const init = async() =>{
         
 
     ]
+    const role = [
+        {
+            name:'Admin'
+        },
+        {
+            name:'User'
+        }
+    ]
     const categoryResult = await Categories.bulkCreate(categories)
     const productResult = await Products.bulkCreate(products)
+    const roleResult = await Role.bulkCreate(role)
     console.log(categoryResult,productResult)
     } catch (error) {
         console.log(error)
