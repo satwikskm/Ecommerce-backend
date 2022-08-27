@@ -1,4 +1,6 @@
 const {User , Role} = require('../models')
+const jwt = require('jsonwebtoken')
+
 async function checkDuplicates(req,res,next){
     if(req.body.username){
         const user = await User.findOne({
@@ -68,4 +70,34 @@ async function checkRoles(req,res,next){
 	}
 }
 
-module.exports = {checkDuplicates,checkRoles}
+
+// 
+
+async function verifyToken(req,res,next){
+	const token = req.headers['access-token'];
+
+	if(token){
+		try{
+			const result = await jwt.verify(token, process.env.JWT_SECRET_KEY)
+			
+			if(result){
+				console.log(result,"res")
+				req.id = result.id
+				next()
+			}else{
+				res.status(400).send({msg : 'auth token has expired. Please relogin'})
+				return;
+			}
+		}catch(err){
+			res.status(400).send({msg : 'auth token has expired. Please relogin'})
+			return;	
+		}
+
+
+	}else{
+		res.status(401).send({msg : 'auth token is missing'})
+		return;
+	}
+}
+
+module.exports = {checkDuplicates,checkRoles,verifyToken}

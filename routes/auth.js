@@ -1,6 +1,6 @@
 const express = require('express')
 
-const {signUp}=require('../controller/auth')
+const {signUp,signIn}=require('../controller/auth')
 
 const routes = express.Router()
 
@@ -11,6 +11,10 @@ const {checkDuplicates,checkRoles} = require('../middleware')
 //const {productValidation} = require('../middleware')
 
 routes.post('/ecomm/api/v1/signUp',[checkDuplicates],[checkRoles],signUp)
+
+
+routes.post('/ecomm/api/v1/signIn',signIn)
+
 
 
 

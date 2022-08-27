@@ -19,7 +19,8 @@ app.listen(serverPort,()=>{
 })
 
 const init = async() =>{
-    await sequelize.sync({force:true})
+    // await sequelize.sync({force:true})
+    await sequelize.authenticate()
     try {
         await sequelize.sync({force:true})
         const categories = [
@@ -89,7 +90,7 @@ const init = async() =>{
     const categoryResult = await Categories.bulkCreate(categories)
     const productResult = await Products.bulkCreate(products)
     const roleResult = await Role.bulkCreate(role)
-    console.log(categoryResult,productResult)
+    // console.log(categoryResult,productResult)
     } catch (error) {
         console.log(error)
         
